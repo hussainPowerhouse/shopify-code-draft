@@ -1,0 +1,631 @@
+{{ 'gold-price-chart.css' | asset_url | stylesheet_tag }}
+
+{% comment %} External Library amcharts CDN {% endcomment %}
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+{% style %}
+    #section-{{ section.id }} {
+        background: {{ section.settings.backgound_color }};
+    }
+    #section-{{ section.id }} .child-gold-chart-wrapper {
+        padding-top: {{ section.settings.padding_top_dp }}px;
+        padding-bottom: {{ section.settings.padding_bottom_dp }}px;
+    }
+    @media(max-width: 990px) {
+        #section-{{ section.id }} .child-gold-chart-wrapper {
+            padding-top: {{ section.settings.padding_top_mb }}px;
+            padding-bottom: {{ section.settings.padding_bottom_mb }}px;
+        }
+    }
+{% endstyle %}
+
+<div class="main-gold-chart-wrapper" id="section-{{ section.id }}">
+    <div class="child-gold-chart-wrapper page-width">
+       <!-- Metal switcher for Gold/Silver -->
+        <div class="gold-silver-switch-wrapper">
+            <div class="child-gold-silver-switcher">
+                <button class="metal-switch-btn active-metal" data-metal="gold">Gold</button>
+                <button class="metal-switch-btn" data-metal="silver">Silver</button>
+            </div>
+        </div>
+        <div class="gold-container">
+            <h1 id="live-chart-title" data-live-price>Live Gold Spot Price</h1>
+            <h1 id="historical-chart-title" class="hidden" data-historical-price>Historical Gold Chart</h1>
+        </div>
+
+       
+
+        <!-- Chart Type Switcher for Live and Historical Prices -->
+        <div class="gold-container chart-switch-btns">
+            <div class="map-switch-wrapper">
+                <div class="child-map-switcher">
+                    <button class="map-switch-btn active-btn" data-price-type="live">Live Price</button>
+                    <button class="map-switch-btn" data-price-type="historical">Historical Price</button>
+                </div>
+            </div>
+            <div class="currency-switch-wrapper">
+                <noscript>
+                    {%- form 'localization', id: 'HeaderCountryFormNoScript', class: 'localization-form' -%}
+                        <div class="localization-form__select">
+                            <h2 class="visually-hidden" id="HeaderCountryLabelNoScript">{{ 'localization.country_label' | t }}</h2>
+                            <select class="localization-selector link" name="country_code" aria-labelledby="HeaderCountryLabelNoScript">
+                                {%- for country in localization.available_countries -%}
+                                    <option value="{{ country.iso_code }}" {%- if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                                        {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                                    </option>
+                                {%- endfor -%}
+                            </select>
+                            {% render 'icon-caret' %}
+                        </div>
+                    <button class="button button--tertiary"><span>{{ 'localization.update_country' | t }}</span></button>
+                    {%- endform -%}
+                </noscript>
+                <localization-form>
+                    {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form' -%}
+                        <details-disclosure class="no-js-hidden" data-ignore-hover="true">
+                            <h2 class="text-small text-body visually-hidden" id="HeaderCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                            <details class="disclosure por">
+                                <summary class="disclosure__button localization-form__select localization-selector link link--text flex align-center left   por"    aria-expanded="false" aria-controls="HeaderCountryList" aria-describedby="HeaderCountryLabel">
+                                    {{ localization.country.name }} ({{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }})
+                                    {% render 'icon-caret' %}
+                                </summary>
+                                <div class="disclosure__list-wrapper disclosure__list-wrapper--bottom">
+                                    <ul id="HeaderCountryList" role="list" class="disclosure__list list-unstyled">
+                                        {%- for country in localization.available_countries -%}
+                                            <li class="disclosure__item" tabindex="-1">
+                                                <a class="link link--text disclosure__link text-small {% if country.iso_code == localization.country.   iso_code %} disclosure__link--active{% endif %}" href="#"{% if country.iso_code == localization.country.   iso_code %} aria-current="true" {% endif %} data-value="{{ country.iso_code }}"> {{ country.name }} <span  class="localization-form__currency">({{ country.currency.iso_code }} {{ country.currency.symbol }})</span>
+                                                </a>
+                                            </li>
+                                        {%- endfor -%}
+                                    </ul>
+                                </div>
+                            </details>
+                            <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+                        </details-disclosure>
+                    {%- endform -%}
+                </localization-form>
+            </div>
+        </div>
+        <div class="gold-live-price-container" data-live-price>
+            <div data-gold-live-price></div>
+            <div class="chart-sub-wrapper">
+                <div class="gold-live-set-wrapper" style="opacity:0;">
+                </div>
+                <div id="chartdiv">
+                </div>
+                <a class="watermark" style="opacity:0;" target="_parent" href="https://goldbroker.com/" ><img src="https://summitmetals.com/cdn/shop/files/SummitMetals_Logo_RGB_92e1cfcb-00b2-4e4f-b89e-01efaa61ef1e.svg?v=1723684162&width=500"></a>
+            </div>
+        </div>
+        <div class="gold-historical-price-container hidden" data-historical-price>
+            <div data-gold-live-price>
+                <div id="chartdivhis"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      // default action
+        document.getElementsByClassName('cus-silver')[0].style.display = 'none';
+        document.getElementsByClassName('cus-gold')[0].style.display = 'block';
+      
+        let chart;
+        let currentMetal = 'gold'; // Default to gold
+
+        // this array will contains all the api url and based on the current active metal it will return api
+        const metalApi = {
+            gold: {
+                livePrice: 'https://infinite-beach-29082-7875b8bd1777.herokuapp.com/api/spot-price',
+                chart: 'https://infinite-beach-29082-7875b8bd1777.herokuapp.com/api/live-gold-price',
+                historicalChart: 'https://infinite-beach-29082-7875b8bd1777.herokuapp.com/api/gold-chart'
+            },
+            silver: {
+                livePrice: 'https://infinite-beach-29082-7875b8bd1777.herokuapp.com/api/spot-price',
+                chart: 'https://infinite-beach-29082-7875b8bd1777.herokuapp.com/api/live-silver-price',
+                historicalChart: 'https://infinite-beach-29082-7875b8bd1777.herokuapp.com/api/silver-chart'
+            }
+        }
+
+        const goldBtn = document.querySelector('.metal-switch-btn[data-metal="gold"]');
+        const silverBtn = document.querySelector('.metal-switch-btn[data-metal="silver"]');
+
+        goldBtn.addEventListener('click', function () {
+            switchMetal('gold');
+        });
+
+        silverBtn.addEventListener('click', function () {
+            switchMetal('silver');
+        });
+
+        function switchMetal(metal) {
+            currentMetal = metal;
+            
+            // Update the live and historical titles based on the selected metal
+            document.querySelector('#live-chart-title').innerText = `Live ${metal.charAt(0).toUpperCase() + metal.slice(1)} Spot Price`;
+            document.querySelector('#historical-chart-title').innerText = `Historical ${metal.charAt(0).toUpperCase() + metal.slice(1)} Chart`;
+
+            if (currentMetal === 'silver') {
+                document.getElementsByClassName('cus-silver')[0].style.display = 'block';
+                document.getElementsByClassName('cus-gold')[0].style.display = 'none';
+            } else {
+                document.getElementsByClassName('cus-silver')[0].style.display = 'none';
+                document.getElementsByClassName('cus-gold')[0].style.display = 'block';
+            }
+          
+            // Update prices and charts based on the selected metal
+                createChart();
+                updatePrices();
+                setInterval(updatePrices, 60000);
+                setInterval(updateChartData, 60000);
+        
+                am4core.ready(function() {
+                    am4core.useTheme(am4themes_animated);
+                    var chart = am4core.create("chartdivhis", am4charts.XYChart);
+                    function fetchAndUpdateChart() {
+                        fetch(metalApi[currentMetal].historicalChart)
+                            .then(response => response.json())
+                            .then(data => {
+                            const chartData = data.items.map(item => ({
+                                date: new Date(item.date),
+                                value: item.value
+                            }));
+                            console.log('am4core.create historical',chartData);    
+                            chart.data = chartData;
+                        })
+                        .catch(error => console.error('Error fetching the data:', error));
+                    }
+                    fetchAndUpdateChart();
+                    setInterval(fetchAndUpdateChart, 60000);
+                    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+                    dateAxis.renderer.minGridDistance = 60;
+                    dateAxis.cursorTooltipEnabled = false;
+                    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis.cursorTooltipEnabled = false;
+                    valueAxis.title.text =  (currentMetal == "gold" ? "Gold " : "Silver ") + "Price per Ounce";
+                    var series = chart.series.push(new am4charts.LineSeries());
+                    series.dataFields.valueY = "value";
+                    series.dataFields.dateX = "date";
+                    series.tooltipText = "{value}";
+                                
+                    series.tooltip.pointerOrientation = "vertical";
+                                
+                    chart.cursor = new am4charts.XYCursor();
+                    chart.cursor.snapToSeries = series;
+                    chart.cursor.xAxis = dateAxis;
+                    chart.scrollbarX = new am4core.Scrollbar();
+                });
+
+            // Toggle active class on metal buttons
+            document.querySelectorAll('.metal-switch-btn').forEach(btn => btn.classList.remove('active-metal'));
+            document.querySelector(`.metal-switch-btn[data-metal="${metal}"]`).classList.add('active-metal');
+        }
+
+        const livePriceBtn = document.querySelector('.map-switch-btn:nth-child(1)');
+        const historicalPriceBtn = document.querySelector('.map-switch-btn:nth-child(2)');
+        const livePriceElements = document.querySelectorAll('[data-live-price]');
+        const historicalPriceElements = document.querySelectorAll('[data-historical-price]');
+        
+        function toggleVisibility(showLivePrice) {
+            if (showLivePrice) {
+                livePriceElements.forEach(el => el.classList.remove('hidden'));
+                historicalPriceElements.forEach(el => el.classList.add('hidden'));
+            } else {
+                livePriceElements.forEach(el => el.classList.add('hidden'));
+                historicalPriceElements.forEach(el => el.classList.remove('hidden'));
+            }
+        }
+        
+        livePriceBtn.addEventListener('click', function () {
+            toggleVisibility(true);
+            livePriceBtn.classList.add('active-btn');
+            historicalPriceBtn.classList.remove('active-btn');
+        });
+        
+        historicalPriceBtn.addEventListener('click', function () {
+            toggleVisibility(false);
+            livePriceBtn.classList.remove('active-btn');
+            historicalPriceBtn.classList.add('active-btn');
+        });
+        
+        /*async function fetchLiveGoldAskPrice() {
+            try {
+                let response = await fetch(metalApi[currentMetal].chart);
+                let apiData = await response.json();
+                console.log('fetchLiveGoldAskPrice apiData',apiData);
+                if (apiData.items.length >= 2) {
+                    return apiData.items[apiData.items.length - 2].mid;
+                } else {
+                    throw new Error('Not enough data available');
+                }
+            } catch (error) {
+                console.error('Error fetching live gold ask price:', error);
+                return null; // Return null in case of error
+            }
+        }*/
+
+        
+        function calculatePrices(spotPriceOzt, metalType) {
+            let pricePerGram, pricePerKilo;
+            if (metalType === 'gold') {
+                pricePerGram = spotPriceOzt / 31.1035;
+                pricePerKilo = pricePerGram * 1000;
+                return {
+                    pricePerOzt: spotPriceOzt,
+                    pricePerGram: pricePerGram.toFixed(2),
+                    pricePerKilo: pricePerKilo.toFixed(2)
+                };
+            } else if (metalType === 'silver') {
+                pricePerKilo = spotPriceOzt * 32.1507466;
+                return {
+                    pricePerOzt: spotPriceOzt,
+                    pricePerKilo: pricePerKilo.toFixed(2)
+                };
+            } else {
+                throw new Error('Unsupported metal type');
+            }
+        }
+        
+        async function updatePrices() {
+            try {
+                if(currentMetal === 'gold') {
+                    document.getElementsByClassName('normaltit')[0].innerHTML = 'Live Gold Price';
+                    document.getElementsByClassName('goldtitnew')[0].innerHTML = 'Live Gold Price';
+                    document.getElementById('Custom-gold-1').style.display = 'block';
+                    document.getElementById('Custom-gold-2').style.display = 'block';
+                    document.getElementById('Custom-gold-3').style.display = 'block';
+                    document.getElementById('Custom-gold-4').style.display = 'block';
+
+                    document.getElementById('Custom-silver-1').style.display = 'none';
+
+                    document.getElementById('spot-price-si').style.display = 'none';
+                    document.getElementById('gold-pr').style.display = 'block';
+                }else{
+                    document.getElementsByClassName('normaltit')[0].innerHTML = 'Live Silver Price';
+                    document.getElementsByClassName('goldtitnew')[0].innerHTML = 'Live Silver Price';
+                    document.getElementById('Custom-gold-1').style.display = 'none';
+                    document.getElementById('Custom-gold-2').style.display = 'none';
+                    document.getElementById('Custom-gold-3').style.display = 'none';
+                    document.getElementById('Custom-gold-4').style.display = 'none';
+
+                    document.getElementById('Custom-silver-1').style.display = 'block';
+
+                    document.getElementById('spot-price-si').style.display = 'block';
+                    document.getElementById('gold-pr').style.display = 'none';
+                }
+                //let liveGoldAskPrice = await fetchLiveGoldAskPrice();
+                //console.log('liveGoldAskPrice',liveGoldAskPrice);
+                //if (liveGoldAskPrice === null) {
+                //    return;
+                //}
+                const spotResponse = await fetch(metalApi[currentMetal].livePrice);
+                console.log('spotResponse',spotResponse);
+                const spotData = await spotResponse.json();
+                //const goldPrices = calculatePrices(liveGoldAskPrice, 'gold');
+                const silverPrices = calculatePrices(spotData.silverAsk, 'silver');
+                const silverAskPrice = Number(spotData.silverAsk);
+                const silverChange = Number(spotData.silverChange);
+                const silverChangePercent = Number(spotData.silverChangePercent);
+                const goldAskPrice = Number(spotData.goldAsk);
+                const goldChange = Number(spotData.goldChange);
+                const goldChangePercent = Number(spotData.goldChangePercent);
+                const goldPriceDiv = document.querySelector('[data-gold-live-price]');
+                const goldPriceContainer = document.querySelector('.gold-live-price-container');
+                const goldLiveSetWrapper = document.querySelector('.gold-live-set-wrapper');
+                const silverPerformanceClass = silverChange > 0 ? 'performance-up positive' : 'performance-up negative';
+                const goldPerformanceClass = goldChange > 0 ? 'performance-up positive' : 'performance-up negative';
+                //const goldPricesPerOzt = parseFloat(goldPrices.pricePerOzt).toFixed(2);
+                //const goldPricePerKilo = parseFloat(goldPrices.pricePerKilo).toFixed(2);
+                //commented temp
+                //const formattedGoldPricesPerOzt = Number(goldPricesPerOzt).toLocaleString('en');
+                const formattedGoldPricesPerOzt = Number(spotData?.goldAsk || 0);
+                console.log('formattedGoldPricesPerOzt',formattedGoldPricesPerOzt);
+                //const formattedGoldPricesPerKilo = Number(goldPricePerKilo).toLocaleString('en'); // Fixed typo here
+                const priceApKilo = `$${silverPrices?.pricePerKilo} kg`; // Get the text content of the first element with class 'price-ap-kilo', or an empty string if not found
+                const priceApKiloNum = silverPrices?.pricePerKilo;
+                const goldPrices = calculatePrices(goldAskPrice, 'gold');
+                const priceApGram = `$${goldPrices?.pricePerGram} g`; // Get the text content of the first element with class 'price-ap-Gram', or an empty string if not found
+                console.log('priceApGram',priceApGram);
+                const priceApGramNum = goldPrices?.pricePerGram;
+                //calculator prices
+                goldPriceDiv.innerHTML='';
+                goldLiveSetWrapper.innerHTML='';
+                if (currentMetal == 'gold') {
+                    document.getElementById('spot-price').value = formattedGoldPricesPerOzt;
+                    document.getElementById('gold-value').innerHTML =  `$${formattedGoldPricesPerOzt}`;
+                 /* goldPriceDiv.innerHTML = `
+                    <div class="spot-price-per-ounce">
+                        <div class="me-3">
+                            <span class="large-price">$${formattedGoldPricesPerOzt}</span>
+                        </div>
+                        ${Number(apiDataLiveGold.items[apiDataLiveGold.items.length - 2].performance) != 0 ?
+                            `<span class="${performanceClass}">${apiDataLiveGold.items[apiDataLiveGold.items.length - 2].performance}</span>`
+                        : ''}
+                    </div>
+                    <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
+                    <div class="d-flex flex-column me-3">
+                        <span class="medium-text" style="opacity: 0.7">1 kilogram</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${formattedGoldPricesPerKilo}</span>
+                    </div>
+                    <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
+                    <div class="d-flex flex-column">
+                        <span class="medium-text" style="opacity: 0.7">1 gram</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${goldPrices.pricePerGram}</span>
+                    </div>
+                `;
+                    goldLiveSetWrapper.innerHTML = `
+                    <div class="chart-in-live-price">
+                        <span class="large-price">$${formattedGoldPricesPerOzt}</span>
+                        <span>&nbsp;</span>
+                        <span class="${performanceClass}">${apiDataLiveGold.items[apiDataLiveGold.items.length - 2].performance}</span>
+                    </div>
+                `;*/
+                // spot price div
+                   goldPriceDiv.innerHTML = `
+                    <div class="spot-price-per-ounce">
+                        <div class="me-3">
+                            <span class="large-price">$${goldAskPrice}</span>
+                        </div>
+                        ${Number(goldChange) != 0 ?
+                            `<span class="${goldPerformanceClass}">${goldChangePercent}</span>`
+                        : ''}
+                    </div>
+                    <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
+                    <div class="d-flex flex-column me-3">
+                        <span class="medium-text" style="opacity: 0.7">1 kilogram</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${(goldPrices.pricePerKilo)}</span>
+                    </div>
+                    <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
+                    <div class="d-flex flex-column">
+                        <span class="medium-text" style="opacity: 0.7">1 gram</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${(priceApGramNum)}</span>
+                    </div>
+                `;
+                    goldLiveSetWrapper.innerHTML = `
+                    <div class="chart-in-live-price">
+                        <span class="large-price">$${goldAskPrice}</span>
+                        <span>&nbsp;</span>
+                        <span class="${goldPerformanceClass}">${goldChangePercent}</span>
+                    </div>
+                `;
+                    goldPriceContainer.style.opacity = 1;
+                } else {
+                    document.getElementById('spot-price-silver').value = silverAskPrice;
+                    document.getElementById('silver-value').innerHTML = `$${silverAskPrice}`;
+                    goldPriceDiv.innerHTML = `
+                    <div class="spot-price-per-ounce">
+                        <div class="me-3">
+                            <span class="large-price">$${silverAskPrice}</span>
+                        </div>
+                        ${Number(silverChange) != 0 ?
+                            `<span class="${silverPerformanceClass}">${silverChangePercent}</span>`
+                        : ''}
+                    </div>
+                    <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
+                    <div class="d-flex flex-column me-3">
+                        <span class="medium-text" style="opacity: 0.7">1 kilogram</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">${priceApKilo}</span>
+                    </div>
+                    <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
+                    <div class="d-flex flex-column">
+                        <span class="medium-text" style="opacity: 0.7">1 gram</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${(silverPrices.pricePerOzt * 0.0321507).toFixed(2)}</span>
+                    </div>
+                `;
+                    goldLiveSetWrapper.innerHTML = `
+                    <div class="chart-in-live-price">
+                        <span class="large-price">$${silverAskPrice}</span>
+                        <span>&nbsp;</span>
+                        <span class="${silverPerformanceClass}">${silverChangePercent}</span>
+                    </div>
+                `;
+                    goldPriceContainer.style.opacity = 1;
+                }
+                // end calculator prices
+                // chart rendering here
+                //let responseLiveGold = await fetch(metalApi[currentMetal].chart);
+                //console.log('responseLiveGold',responseLiveGold);
+                //let apiDataLiveGold = await responseLiveGold.json();
+                //const performanceClass = Number(apiDataLiveGold.items[apiDataLiveGold.items.length - 2].performance) > 0 ? 'performance-up      positive' : 'performance-up negative';
+            } catch (error) {
+                console.log('error',error);
+                console.log('Error updating prices:', error);
+            }
+        }
+        
+        async function createChart() {
+            let chartLiveGoldPrice = document.querySelector('.gold-live-set-wrapper');
+            let chartLogoUrl = document.querySelector('.watermark');
+            
+            // Dispose of the existing chart if it exists
+            if (chart) {
+                chart.dispose();
+            }
+            
+            const chartDiv = document.getElementById("chartdiv");
+            chartDiv.innerHTML = "";
+            const chartDivHis = document.getElementById("chartdivhis");
+            chartDivHis.innerHTML = "";
+
+            if (currentMetal === 'silver') {
+                chartDiv.classList.add("silver");
+                chartDivHis.classList.add("silver");
+            } else {
+                chartDiv.classList.remove("silver");
+                chartDivHis.classList.remove("silver");
+            }
+
+            chart = am4core.create("chartdiv", am4charts.XYChart);
+            chart.paddingRight = 25;
+            chart.data = await generateChartData();
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            dateAxis.baseInterval = { "timeUnit": "minute", "count": 1 };
+            dateAxis.dateFormats.setKey("hour", "HH:mm 'UTC'");
+            dateAxis.dateFormats.setKey("day", "dd MMM");
+            dateAxis.dateFormats.setKey("minute", "HH:mm 'UTC'");
+            dateAxis.dateFormats.setKey("second", "HH:mm:ss 'UTC'");
+            dateAxis.tooltipDateFormat = "HH:mm 'UTC', d MMMM";
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.tooltip.disabled = true;
+            valueAxis.title.text = (currentMetal == "gold" ? "Gold " : "Silver ") + "Price per Ounce";
+            valueAxis.numberFormatter.numberFormat = "$#,###.##";
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.dateX = "date";
+            series.dataFields.valueY = "bid";
+            series.tooltipText = `Bid: ${"{bid}"}[/] 
+            Mid: ${"{mid}"}[/] 
+            Ask: ${"{ask}"}[/]`;
+            series.fillOpacity = 0.1;
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.lineY.opacity = 0;
+            chart.scrollbarX = new am4charts.XYChartScrollbar();
+            chart.scrollbarX.series.push(series);
+            dateAxis.start = 0;
+            dateAxis.keepSelection = true;
+            chartLiveGoldPrice.style.opacity = 1;
+            chartLogoUrl.style.opacity = 0.5;
+        }
+        
+        async function generateChartData() {
+            try {
+                var chartData = [];
+                let response = await fetch(metalApi[currentMetal].chart);
+                let apiData = await response.json();
+                for (var i = 0; i < apiData.items.length; i++) {
+                    // as response is changed in live-gold-price and live-silver-price
+                const newDate = new Date(apiData.items[i].timestamp);
+                // Extract the date in "YYYY-MM-DD" format
+                //const newDate = dateObj.toISOString().split('T')[0];
+                //var newDate = new Date(apiData.items[i].date); // old api payload response
+                    chartData.push({
+                        date: newDate,
+                        ask: apiData.items[i].ask,
+                        mid: apiData.items[i].mid,
+                        bid: apiData.items[i].bid
+                    });
+                }
+                if (apiData.items.length >= 2) {
+                    window.goldAskPriceLive = apiData.items[apiData.items.length - 2].ask;
+                }
+                console.log('generateChartData', chartData);
+                return chartData;
+            } catch (error) {
+                console.error('Error generating chart data:', error);
+                return [];
+            }
+        }
+        
+        async function updateChartData() {
+            let chartData = await generateChartData();
+            chart.data = chartData;
+        }
+        
+        createChart();
+        updatePrices();
+        setInterval(updatePrices, 60000);
+        setInterval(updateChartData, 60000);
+        
+        am4core.ready(function() {
+            am4core.useTheme(am4themes_animated);
+            var chart = am4core.create("chartdivhis", am4charts.XYChart);
+            function fetchAndUpdateChart() {
+                fetch(metalApi[currentMetal].historicalChart)
+                    .then(response => response.json())
+                    .then(data => {
+                    const chartData = data.items.map(item => ({
+                        date: new Date(item.date),
+                        value: item.value
+                    }));    
+                    console.log('am4core.create historical',chartData);    
+                    chart.data = chartData;
+                })
+                .catch(error => console.error('Error fetching the data:', error));
+            }
+            fetchAndUpdateChart();
+            setInterval(fetchAndUpdateChart, 60000);
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            dateAxis.renderer.minGridDistance = 60;
+            dateAxis.cursorTooltipEnabled = false;
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.cursorTooltipEnabled = false;
+            valueAxis.title.text =  (currentMetal == "gold" ? "Gold " : "Silver ") + "Price per Ounce";
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.valueY = "value";
+            series.dataFields.dateX = "date";
+            series.tooltipText = "{value}";
+                        
+            series.tooltip.pointerOrientation = "vertical";
+                        
+            chart.cursor = new am4charts.XYCursor();
+            chart.cursor.snapToSeries = series;
+            chart.cursor.xAxis = dateAxis;
+            chart.scrollbarX = new am4core.Scrollbar();
+        });
+
+    });
+</script>
+
+{% schema %}
+{
+    "name": "Gold price chart",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Section settings"
+        },
+        {
+            "type": "color",
+            "id": "backgound_color",
+            "default": "#fff",
+            "label": "Background color"
+        },
+        {
+            "type": "range",
+            "id": "padding_top_dp",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding top [Desktop]",
+            "default": 20
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom_dp",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding bottom [Desktop]",
+            "default": 20
+        },
+        {
+            "type": "range",
+            "id": "padding_top_mb",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding top [Mobile]",
+            "default": 20
+        },
+        {
+            "type": "range",
+            "id": "padding_bottom_mb",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "label": "Padding bottom [Mobile]",
+            "default": 20
+        }
+    ],
+    "presets": [
+        {
+            "name": "Gold price chart"
+        }
+    ]
+}
+{% endschema %}

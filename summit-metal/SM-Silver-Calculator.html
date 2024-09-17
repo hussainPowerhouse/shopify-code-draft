@@ -1,0 +1,235 @@
+<style>
+    #spot-price-si {
+        display: none;
+
+        .sm-tit-desp {
+            width: 50%;
+
+            p {
+                width: 600px;
+            }
+        }
+
+        .calculator-container-main {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .calculator-container {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 49%;
+            background-color: transparent;
+            border: 2px dotted;
+
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 1px solid lightgray;
+                color: #c0c0c0;
+            }
+        }
+
+        .result h1 {
+            text-align: center;
+            font-size: 32px;
+            color: #c0c0c0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+
+            label {
+                display: block;
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            input,
+            select {
+                width: 100%;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+        }
+
+        button#silver-calculate-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #c0c0c0;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #b0b0b0;
+            }
+        }
+
+        .sm-first-row {
+            display: flex;
+            gap: 40px;
+        }
+
+        .sm-scnd-row {
+            display: flex;
+            gap: 45px;
+        }
+
+        input:focus-visible {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        <blade media|%20screen%20and%20(max-width%3A%20768px)%20%7B>.calculator-container-main {
+            display: block;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .sm-tit-desp {
+            width: 100%;
+            padding: 20px;
+
+            p {
+                width: 100%;
+            }
+        }
+
+        .calculator-container {
+            margin: auto;
+            width: 95%;
+        }
+
+        .sm-first-row {
+            display: flex;
+            gap: 40px;
+        }
+
+        .sm-scnd-row {
+            display: flex;
+            gap: 0px 32px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 45%;
+        }
+    }
+     #unit-form{
+            margin-left: -6px;
+    }
+</style>
+
+<div id="spot-price-si" class="calculator">
+    <div class="page-width">
+        <div class="calculator-container-main">
+            <div class="calculator-container">
+                <h2>{{ section.settings.title }}</h2>
+                <div class="result">
+                    <h1 id="silver-value">$0.00 </h1>
+                </div>
+                <div class="sm-first-row">
+                    <div class="form-group">
+                        <label for="spot-price-silver">Spot Price</label>
+                        <input type="number" id="spot-price-silver" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currency">Currency</label>
+                        <select id="currency">
+
+                            <option value="USD"><img src="path/to/us-flag.png" alt="US Flag"> US Dollar (USD)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sm-scnd-row">
+                    <div class="form-group">
+                        <label for="silver-quantity">Quantity</label>
+                        <input type="number" id="silver-quantity" value="1" step="0.01">
+                    </div>
+
+                    <div class="form-group" id="unit-form">
+                        <label for="silver-unit">Unit</label>
+                        <select id="silver-unit">
+                            <option value="ounces" selected>Troy Ounces</option>
+                            <option value="kilograms">Kilograms</option>
+                            <option value="grams">Grams</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="silver-purity">Purity</label>
+                        <select id="silver-purity">
+                            <option value="0.9999" selected>.9999 (pure)</option>
+                            <option value="0.925">.925 (Sterling Silver)</option>
+                            <option value="0.7500">.7500</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="silver-calculate-btn">Calculate</button>
+            </div>
+            <div class="sm-tit-desp">
+                <h2>Silver Calculator</h2>
+                <p>
+                    Depending on where you live, the silver spot price may not be listed in the currency you use. APMEX
+                    has provided a silver calculator to show you the silver price based on factors like currency,
+                    quantity, a unit of measure, and purity of the silver. Need to insure your stack? Take the guesswork
+                    out of determining the value with our silver coin calculator. Make informed sales and investments
+                    with your collection. If you’re trying to figure out how much the sterling silver around your house
+                    is worth, use our silver scrap calculator to clear your clutter and make some money.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('silver-calculate-btn').addEventListener('click', function () {
+        const spotPrice = parseFloat(document.getElementById('spot-price-silver').value);
+        const quantity = parseFloat(document.getElementById('silver-quantity').value);
+        const unit = document.getElementById('silver-unit').value;
+        const purity = parseFloat(document.getElementById('silver-purity').value);
+
+        // Conversion factors from different units to ounces
+        const unitToOunce = {
+            grams: 0.0321507,         // 1 gram = 0.0321507 ounces
+            kilograms: 32.1507,       // 1 kilogram = 32.1507 ounces
+            ounces: 1,                // Already in ounces
+        };
+
+        // Calculate the silver value based on the inputs
+        let totalOunces = quantity * unitToOunce[unit]; // Convert quantity to ounces
+        let silverValue = totalOunces * spotPrice * purity; // Calculate final silver value
+
+        // Display the calculated silver value in the result section
+        document.getElementById('silver-value').textContent = `$${silverValue.toFixed(2)}`;
+    });
+</script>
+
+{% schema %}
+{
+  "name": "Cus SM Silver Calculator",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Cus SM Silver Calculator"
+    }
+  ]
+}
+{% endschema %}
