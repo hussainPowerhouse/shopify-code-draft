@@ -91,11 +91,11 @@
         <div class="gold-live-price-container" data-live-price>
             <div data-gold-live-price></div>
             <div class="chart-sub-wrapper">
+                <a class="watermark" style="opacity:0;" target="_parent" ><img src="https://summitmetals.com/cdn/shop/files/SummitMetals_Logo_RGB_92e1cfcb-00b2-4e4f-b89e-01efaa61ef1e.svg?v=1723684162&width=500"></a>
                 <div class="gold-live-set-wrapper" style="opacity:0;">
                 </div>
                 <div id="chartdiv">
                 </div>
-                <a class="watermark" style="opacity:0;" target="_parent" href="https://goldbroker.com/" ><img src="https://summitmetals.com/cdn/shop/files/SummitMetals_Logo_RGB_92e1cfcb-00b2-4e4f-b89e-01efaa61ef1e.svg?v=1723684162&width=500"></a>
             </div>
         </div>
         <div class="gold-historical-price-container hidden" data-historical-price>
@@ -334,7 +334,7 @@
                 goldLiveSetWrapper.innerHTML='';
                 if (currentMetal == 'gold') {
                     document.getElementById('spot-price').value = formattedGoldPricesPerOzt;
-                    document.getElementById('gold-value').innerHTML =  `$${formattedGoldPricesPerOzt}`;
+                    //document.getElementById('gold-value').innerHTML =  `$${formattedGoldPricesPerOzt}`;
                  /* goldPriceDiv.innerHTML = `
                     <div class="spot-price-per-ounce">
                         <div class="me-3">
@@ -393,7 +393,7 @@
                     goldPriceContainer.style.opacity = 1;
                 } else {
                     document.getElementById('spot-price-silver').value = silverAskPrice;
-                    document.getElementById('silver-value').innerHTML = `$${silverAskPrice}`;
+                    //document.getElementById('silver-value').innerHTML = `$${silverAskPrice}`;
                     goldPriceDiv.innerHTML = `
                     <div class="spot-price-per-ounce">
                         <div class="me-3">
