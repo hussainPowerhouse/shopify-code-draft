@@ -938,7 +938,7 @@
                 // "metalChange": "red"
                 // }
                 // }
-                console.log('API Data:', apiData); // Log to check if data is fetched correctly
+                //console.log('API Data:', apiData); // Log to check if data is fetched correctly
 
                 if (apiData.items && apiData.items.length) {
                     let items = apiData.items.map(item => ({
@@ -946,7 +946,7 @@
                         value: item.ratioValue // Ratio value
                     }));
 
-                    console.log('Processed Chart Data:', items); // Log the processed chart data
+                    //console.log('Processed Chart Data:', items); // Log the processed chart data
 
                     ratioChart.data = items; // Update chart data
                 } else {

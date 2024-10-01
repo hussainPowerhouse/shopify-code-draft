@@ -172,7 +172,7 @@
                                 date: new Date(item.date),
                                 value: item.value
                             }));
-                            console.log('am4core.create historical',chartData);    
+                            //console.log('am4core.create historical',chartData);    
                             chart.data = chartData;
                         })
                         .catch(error => console.error('Error fetching the data:', error));
@@ -253,14 +253,14 @@
                 pricePerGram = spotPriceOzt / 31.1035;
                 pricePerKilo = pricePerGram * 1000;
                 return {
-                    pricePerOzt: spotPriceOzt,
+                    pricePerOzt: spotPriceOzt.toFixed(2),
                     pricePerGram: pricePerGram.toFixed(2),
                     pricePerKilo: pricePerKilo.toFixed(2)
                 };
             } else if (metalType === 'silver') {
                 pricePerKilo = spotPriceOzt * 32.1507466;
                 return {
-                    pricePerOzt: spotPriceOzt,
+                    pricePerOzt: spotPriceOzt.toFixed(2),
                     pricePerKilo: pricePerKilo.toFixed(2)
                 };
             } else {
@@ -301,7 +301,7 @@
                 //    return;
                 //}
                 const spotResponse = await fetch(metalApi[currentMetal].livePrice);
-                console.log('spotResponse',spotResponse);
+                //console.log('spotResponse',spotResponse);
                 const spotData = await spotResponse.json();
                 //const goldPrices = calculatePrices(liveGoldAskPrice, 'gold');
                 const silverPrices = calculatePrices(spotData.silverAsk, 'silver');
@@ -320,20 +320,20 @@
                 //const goldPricePerKilo = parseFloat(goldPrices.pricePerKilo).toFixed(2);
                 //commented temp
                 //const formattedGoldPricesPerOzt = Number(goldPricesPerOzt).toLocaleString('en');
-                const formattedGoldPricesPerOzt = Number(spotData?.goldAsk || 0);
-                console.log('formattedGoldPricesPerOzt',formattedGoldPricesPerOzt);
+                //const formattedGoldPricesPerOzt = Number(spotData?.goldAsk || 0);
+                //console.log('formattedGoldPricesPerOzt',formattedGoldPricesPerOzt);
                 //const formattedGoldPricesPerKilo = Number(goldPricePerKilo).toLocaleString('en'); // Fixed typo here
                 const priceApKilo = `$${silverPrices?.pricePerKilo} kg`; // Get the text content of the first element with class 'price-ap-kilo', or an empty string if not found
                 const priceApKiloNum = silverPrices?.pricePerKilo;
                 const goldPrices = calculatePrices(goldAskPrice, 'gold');
                 const priceApGram = `$${goldPrices?.pricePerGram} g`; // Get the text content of the first element with class 'price-ap-Gram', or an empty string if not found
-                console.log('priceApGram',priceApGram);
+                //console.log('priceApGram',priceApGram);
                 const priceApGramNum = goldPrices?.pricePerGram;
                 //calculator prices
                 goldPriceDiv.innerHTML='';
                 goldLiveSetWrapper.innerHTML='';
                 if (currentMetal == 'gold') {
-                    document.getElementById('spot-price').value = formattedGoldPricesPerOzt;
+                    document.getElementById('spot-price').value = goldPrices.pricePerOzt;
                     //document.getElementById('gold-value').innerHTML =  `$${formattedGoldPricesPerOzt}`;
                  /* goldPriceDiv.innerHTML = `
                     <div class="spot-price-per-ounce">
@@ -366,7 +366,7 @@
                    goldPriceDiv.innerHTML = `
                     <div class="spot-price-per-ounce">
                         <div class="me-3">
-                            <span class="large-price">$${goldAskPrice}</span>
+                            <span class="large-price">$${goldPrices.pricePerOzt}</span>
                         </div>
                         ${Number(goldChange) != 0 ?
                             `<span class="${goldPerformanceClass}">${goldChangePercent}</span>`
@@ -380,24 +380,24 @@
                     <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
                     <div class="d-flex flex-column">
                         <span class="medium-text" style="opacity: 0.7">1 gram</span>
-                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${(priceApGramNum)}</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">$${(goldPrices.pricePerGram)}</span>
                     </div>
                 `;
                     goldLiveSetWrapper.innerHTML = `
                     <div class="chart-in-live-price">
-                        <span class="large-price">$${goldAskPrice}</span>
+                        <span class="large-price">$${goldPrices.pricePerOzt}</span>
                         <span>&nbsp;</span>
                         <span class="${goldPerformanceClass}">${goldChangePercent}</span>
                     </div>
                 `;
                     goldPriceContainer.style.opacity = 1;
                 } else {
-                    document.getElementById('spot-price-silver').value = silverAskPrice;
+                    document.getElementById('spot-price-silver').value = silverPrices.pricePerOzt;
                     //document.getElementById('silver-value').innerHTML = `$${silverAskPrice}`;
                     goldPriceDiv.innerHTML = `
                     <div class="spot-price-per-ounce">
                         <div class="me-3">
-                            <span class="large-price">$${silverAskPrice}</span>
+                            <span class="large-price">$${silverPrices.pricePerOzt}</span>
                         </div>
                         ${Number(silverChange) != 0 ?
                             `<span class="${silverPerformanceClass}">${silverChangePercent}</span>`
@@ -406,7 +406,7 @@
                     <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
                     <div class="d-flex flex-column me-3">
                         <span class="medium-text" style="opacity: 0.7">1 kilogram</span>
-                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">${priceApKilo}</span>
+                        <span class="subtitle" style="font-size: 22px; line-height: 1; font-weight: 400">${silverPrices.pricePerKilo}</span>
                     </div>
                     <div class="vertical-element-separator bg-silver d-none d-md-block"></div>
                     <div class="d-flex flex-column">
@@ -416,7 +416,7 @@
                 `;
                     goldLiveSetWrapper.innerHTML = `
                     <div class="chart-in-live-price">
-                        <span class="large-price">$${silverAskPrice}</span>
+                        <span class="large-price">$${silverPrices.pricePerOzt}</span>
                         <span>&nbsp;</span>
                         <span class="${silverPerformanceClass}">${silverChangePercent}</span>
                     </div>
@@ -430,7 +430,7 @@
                 //let apiDataLiveGold = await responseLiveGold.json();
                 //const performanceClass = Number(apiDataLiveGold.items[apiDataLiveGold.items.length - 2].performance) > 0 ? 'performance-up      positive' : 'performance-up negative';
             } catch (error) {
-                console.log('error',error);
+                //console.log('error',error);
                 console.log('Error updating prices:', error);
             }
         }
@@ -509,7 +509,7 @@
                 if (apiData.items.length >= 2) {
                     window.goldAskPriceLive = apiData.items[apiData.items.length - 2].ask;
                 }
-                console.log('generateChartData', chartData);
+                //console.log('generateChartData', chartData);
                 return chartData;
             } catch (error) {
                 console.error('Error generating chart data:', error);
@@ -538,7 +538,7 @@
                         date: new Date(item.date),
                         value: item.value
                     }));    
-                    console.log('am4core.create historical',chartData);    
+                    //console.log('am4core.create historical',chartData);    
                     chart.data = chartData;
                 })
                 .catch(error => console.error('Error fetching the data:', error));
