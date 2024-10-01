@@ -1,0 +1,1367 @@
+<div class="page-width">
+  <div class="form-container cus-form-container">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+      <div class="progress-buttons">
+        <div class="progress-button active" id="step-1">1</div>
+        <div class="progress-button" id="step-2">2</div>
+        <div class="progress-button" id="step-3">3</div>
+        <div class="progress-button" id="step-4">4</div>
+      </div>
+    </div>
+    <form id="ContactForm" class="contact_form_class" enctype="multipart/form-data">
+      <input type="hidden" name="contact[email]" placeholder="Email" value="genralform@gmail.com" required>
+
+      <!-- Step 1 -->
+      <div class="form-step form-step-first active">
+        <div class="form-group-new-heading">
+          <h2>Which of these general services can you provide?</h2>
+          <p>(Check all that apply)</p>
+        </div>
+        <div class="form-group">
+          <h3>Hair</h3>
+          <label><input type="checkbox" name="contact[Cut]" value="cut"> Cut</label>
+          <label><input type="checkbox" name="contact[Color]" value="color"> Color</label>
+          <label
+            ><input type="checkbox" name="contact[Black Hair - Braids, Locs, Weaves etc]" value="black_hair"> Black Hair
+            - Braids, Locs, Weaves etc</label
+          >
+        </div>
+
+        <div class="form-group">
+          <h3>Nails</h3>
+          <label
+            ><input type="checkbox" name="contact[Regular Manicure and Pedicure]" value="manicure_pedicure"> Regular
+            Manicure and Pedicure</label
+          >
+          <label><input type="checkbox" name="contact[Gel/Acrylic]" value="gel_acrylic"> Gel/Acrylic</label>
+          <label><input type="checkbox" name="contact[Nail Art]" value="nail_art"> Nail Art</label>
+        </div>
+        <div class="form-group">
+          <h3>Skincare</h3>
+          <label><input type="checkbox" name="contact[Facials]" value="facials"> Facials</label>
+          <label
+            ><input type="checkbox" name="contact[Microdermabrasion]" value="microdermabrasion">
+            Microdermabrasion</label
+          >
+          <label><input type="checkbox" name="contact[hair]" value="chemical_peels"> Chemical Peels</label>
+        </div>
+        <div class="form-group">
+          <h3>Body</h3>
+          <label><input type="checkbox" name="contact[Waxing/Sugaring]" value="waxing"> Waxing/Sugaring</label>
+          <label><input type="checkbox" name="contact[Massage]" value="massage"> Massage</label>
+          <label
+            ><input type="checkbox" name="contact[Body Scrubs/Wraps]" value="scrubs_wraps"> Body Scrubs/Wraps</label
+          >
+        </div>
+
+        <div class="form-group">
+          <h3>Medi-Spa</h3>
+          <label><input type="checkbox" name="contact[Injectables]" value="injectables"> Injectables</label>
+          <label
+            ><input type="checkbox" name="contact[Laser/Microneedling]" value="laser_microneedling">
+            Laser/Microneedling</label
+          >
+          <label><input type="checkbox" name="contact[Body Contouring]" value="body_contouring"> Body Contouring</label>
+        </div>
+
+        <div class="form-group">
+          <h3>Around the Eyes</h3>
+          <label><input type="checkbox" name="contact[Brow Tinting]" value="brow_tinting"> Brow Tinting</label>
+          <label><input type="checkbox" name="contact[Threading]" value="threading"> Threading</label>
+          <label
+            ><input type="checkbox" name="contact[Eye Lash Extensions and Tints]" value="lash_extensions_tints"> Eye
+            Lash Extensions and Tints</label
+          >
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="back-button" disabled>Back</button>
+          <button type="button" class="next-button">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step">
+        <!-- Content for step 2 -->
+
+        <div class="form-group form-group-cus">
+          <h2>Do you offer mobile services?</h2>
+          <select class="dropdown-content" name="contact[Do you offer mobile services?]">
+            <option value="yes">yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="back-button" disabled>Back</button>
+          <button type="button" class="next-button">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step form-step-cus">
+        <!-- Content for step 3 -->
+
+        <div class="form-group-new">
+          <h2>Do you offer services in a salon/spa/medi-spa?</h2>
+          <p>(If so, please fill in the following details:)</p>
+        </div>
+        <div class="form-group">
+          <h3>Name, address, phone number, website and if there is parking on-site.</h3>
+          <input type="text" name="contact[Info]" value="">
+        </div>
+        <div class="form-group">
+          <h3>Hours and days of operation</h3>
+          <input type="text" name="contact[Hours]" value="">
+        </div>
+
+        <div class="form-group">
+          <h3>Forms of payment accepted</h3>
+          <input type="text" name="contact[payment]" value="">
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="back-button" disabled>Back</button>
+          <button type="button" class="next-button">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="form-step form-step--new-new">
+        <!-- Content for step 4 -->
+
+        <div class="form-group form-group-image">
+          <h2>Do you offer mobile services?</h2>
+          <select name="contact[services]" class="dropdown-content">
+            <option value="yes">yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="form-group form-group-image">
+          <h2>Upload a recent photo here:</h2>
+
+          <input type="file" id="img" name="contact[img]" accept="image/*">
+        </div>
+        <div class="form-group form-group-last">
+          <div class="form-group-sub">
+            <h2>Let’s get to know you!</h2>
+            <h3>What’s your top beauty tip?</h3>
+          </div>
+
+          <input type="text" name="contact[Beauty Tip]" value="">
+        </div>
+
+        <div class="form-group form-group-last-option">
+          <h3>What beauty product should no woman live without?</h3>
+          <input type="text" name="contact[Products]" value="">
+        </div>
+
+        <div class="form-group form-group-last-option">
+          <h3>What’s your beauty superpower?</h3>
+          <input type="text" name="contact[Beauty SuperPower]" value="">
+        </div>
+        <div class="form-group form-group-text">
+          <h2>Link to your social media.</h2>
+          <textarea id="w3review" name="contact[social media]" rows="4" cols="50"></textarea>
+        </div>
+
+        <div class="form-navigation">
+          <button type="button" class="back-button">Back</button>
+          <button type="button" class="submit-button" disabled="true">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div id="payment-modal" class="payment-modal">
+    <div class="payment-modal-content">
+      <div class="modal-header">
+        <img id="close-payment-modal" src="https://cdn.shopify.com/s/files/1/0564/0224/7811/files/X_1.png?v=1725382825">
+      </div>
+      <div class="payment-plan">
+        <button type="button" class="monthly active plan-toggle" data-plan="quarterly">Quarterly</button>
+        <button type="button" class="yearly plan-toggle" data-plan="yearly">Yearly</button>
+      </div>
+      
+      <div class="modal-body">
+        <h2>Choose one and proceed to checkout</h2>
+        <!-- <div class="payment-options-monthly">
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="monthly-checkbox" name="payment-option" value="39" id="hair-checkbox" data-payment="monthly-hair">
+              <label for="hair-checkbox" data-payment="monthly-hair-label">Hair</label>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="monthly-checkbox" name="payment-option" value="79" id="makeup-checkbox" data-payment="monthly-makeup">
+              <label for="makeup-checkbox" data-payment="monthly-makeup-label">Makeup</label>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="monthly-checkbox" name="payment-option" value="99" id="tan-checkbox" data-payment="monthly-tan">
+              <label for="tan-checkbox" data-payment="monthly-tan-label">Tan</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="payment-options-yearly" style="display:none;">
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="yearly-checkbox" name="payment-option" value="468" id="yearly-hair-checkbox" data-payment="yearly-hair">
+              <label for="yearly-hair-checkbox" data-payment="yearly-hair-label">Hair</label>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="yearly-checkbox" name="payment-option" value="948" id="yearly-makeup-checkbox" data-payment="yearly-makeup">
+              <label for="yearly-makeup-checkbox" data-payment="yearly-makeup-label">Makeup</label>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="yearly-checkbox" name="payment-option" value="1188" id="yearly-tan-checkbox" data-payment="yearly-tan">
+              <label for="yearly-tan-checkbox" data-payment="yearly-tan-label">Tan</label>
+            </div>
+          </div>
+        </div> -->
+        <div class="payment-options">
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="service-checkbox" name="payment-option" data-quarterly="39" data-yearly="468" id="hair-checkbox">
+              <label for="hair-checkbox">Hair</label>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="service-checkbox" name="payment-option" data-quarterly="79" data-yearly="948" id="makeup-checkbox">
+              <label for="makeup-checkbox">Makeup</label>
+            </div>
+          </div>
+          <div class="payment-option">
+            <div class="option-selection">
+              <input type="checkbox" class="service-checkbox" name="payment-option" data-quarterly="99" data-yearly="1188" id="tan-checkbox">
+              <label for="tan-checkbox">Tan</label>
+            </div>
+          </div>
+        </div>
+        <div class="total-price">
+            <h2>Total: <span id="amount">0</span></h2>          
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="submit-payment" class="submit-payment" disabled="true">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .payment-plan{
+    display:flex
+  }
+  .plan-toggle.active {
+    background-color: black;
+    color: white;
+  }
+  .monthly:hover{
+    background-color: #000;
+    color: #fff;
+  }
+  .monthly{
+    padding: 13px 20px;
+    border-radius: 0px;
+    margin-left: 5px;
+    border: none;
+    background-color: #96e6de;
+    color: #000;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.1em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+  .yearly:hover{
+    background-color: #000;
+    color: #fff;
+  }
+  .yearly:active{
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .yearly{
+    padding: 13px 20px;
+    border-radius: 0px;
+    margin-left: 5px;
+    border: none;
+    background-color: #96e6de;
+    color: #000;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.1em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+    .form-container.cus-form-container {
+    background-color: #fff;
+    padding: 60px 20px;
+    border-radius: 5px;
+    border: 1px solid #2020201a;
+    width: 63%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 60px;
+    align-items: flex-start;
+  }
+
+  .form-group-new {
+    width: 100%;
+  }
+  .form-group-new-heading {
+    width: 100%;
+  }
+  .cus-form-container .form-group {
+    margin-bottom: 15px;
+    width: 30%;
+  }
+
+  .cus-form-container form#ContactForm h3 {
+    margin-bottom: 0px;
+
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    text-align: left;
+  }
+
+  .cus-form-container form#ContactForm label {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    color: #000;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+  }
+  .cus-form-container form#ContactForm input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+  .cus-form-container .form-group p {
+    margin-bottom: 30px;
+  }
+  .cus-form-container .form-navigation input[type="submit"] {
+    padding: 13px 40px;
+    border-radius: 0px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.1em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .cus-form-container form#ContactForm h2 {
+    font-family: "Didot";
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 26.4px;
+    text-align: left;
+  }
+  .form-navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .form-container.cus-form-container .form-group select {
+    background: #f8f8f8;
+    width: 77%;
+    padding: 8px 12px;
+    text-transform: capitalize;
+    margin-top: 10px;
+    border-top: 0px;
+    border-bottom: 1px solid #3c3c3c;
+    border-left: 0px;
+    border-right: 0px;
+    background-color: #f8f8f8;
+  }
+  .form-container.cus-form-container input[type="text"] {
+    margin-top: 10px;
+    border-top: 0px;
+    border-bottom: 1px solid #3c3c3c;
+    border-left: 0px;
+    border-right: 0px;
+    width: 77%;
+    padding: 15px 12px;
+    text-transform: capitalize;
+    background: #f8f8f8;
+  }
+  .cus-form-container .back-button,
+  .cus-form-container .next-button,
+  .submit-button,
+  .submit-payment {
+    padding: 13px 40px;
+    border-radius: 0px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.1em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .submit-button:disabled,
+  .submit-payment:disabled,
+  .next-button:disabled {
+    background-color: #bfbfbf;
+    cursor: not-allowed;
+  }
+
+  .cus-form-container .back-button:disabled {
+    background-color: #bfbfbf;
+    cursor: not-allowed;
+    padding: 13px 40px;
+    border-radius: 0px;
+  }
+
+  .cus-form-container .form-step {
+    display: none;
+  }
+
+  .cus-form-container .form-step.active {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px 0px;
+    margin-top: 30px;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .cus-form-container form#ContactForm p {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 20px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+  /* Progress Bar Styles */
+
+  /* Progress Bar Styles */
+  .cus-form-container .progress-container {
+    width: 100%;
+    position: relative;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    height: 4px;
+    margin-bottom: 20px;
+  }
+
+  .cus-form-container .progress-bar {
+    height: 100%;
+    width: 25%;
+    background-color: #96e6de;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+    display: block !important;
+  }
+
+  .cus-form-container .progress-button {
+    border-radius: 50%;
+    border: 0px;
+    transition: background-color 0.3s ease;
+    background: #f5f5f5;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+    text-align: center;
+    color: #202020;
+  }
+
+  .cus-form-container .progress-buttons {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    left: 50%;
+  }
+
+  .cus-form-container .progress-button.active {
+    background-color: #96e6de; /* Color for the active step */
+  }
+  /* Hide the default dropdown arrow */
+  .form-container.cus-form-container .form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #f8f8f8;
+    background: url(https://cdn.shopify.com/s/files/1/0564/0224/7811/files/Chevron.svg?v=1724718484)
+      no-repeat right center;
+    background-size: 32px 32px;
+    padding-right: 30px;
+    font-size: 14px;
+  }
+
+  .dropdown-content:focus {
+    outline: none; /* Remove the default focus outline */
+  }
+
+  .form-group {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Optional: Add padding and background styling to the container */
+  .form-group h2 {
+    margin-bottom: 10px;
+  }
+  .form-group.form-group-cus {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form-group.form-group-cus h2 {
+    width: 40%;
+    margin: 0px !important;
+  }
+  .form-group.form-group-cus select.dropdown-content {
+    width: 48%;
+  }
+  form#ContactForm {
+    width: 100%;
+  }
+  .form-step-cus {
+    align-items: flex-end !important;
+  }
+  .form-step.form-step--new-new.active {
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+  }
+  .form-step.form-step--new-new.active .form-group textarea {
+    width: 100%;
+    height: 135px;
+  }
+  .form-group.form-group-text {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 25px;
+  }
+  .cus-form-container .form-step.active h3 {
+    margin-bottom: 15px !important;
+    text-transform: uppercase;
+  }
+  .form-group.form-group-image {
+    width: 50%;
+    height: 80px;
+    justify-content: space-between;
+  }
+  .form-group.form-group-image h2 {
+    margin: 0px !important;
+  }
+  .form-group.form-group-image select.dropdown-content {
+    margin-top: 0px;
+  }
+  .form-group.form-group-last {
+    width: 100% !important;
+  }
+  .form-group.form-group-last input[type="text"] {
+    width: 100% !important;
+  }
+  .form-group.form-group-last-option {
+    width: 48% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+  }
+  /* Adjust the position of the buttons if necessary */
+  #step-1 {
+    left: 0;
+  }
+  #step-2 {
+    left: 25%;
+  }
+  #step-3 {
+    left: 50%;
+  }
+  #step-4 {
+    left: 75%;
+  }
+  @media only screen and (max-width: 991px) {
+    .cus-form-container .form-group {
+      width: 100%;
+    }
+    form#ContactForm input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+    .form-container.cus-form-container .form-group select {
+      width: 77%;
+    }
+    .form-container.cus-form-container input[type="text"] {
+      width: 100%;
+    }
+    .cus-form-container .form-group textarea {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .form-container.cus-form-container {
+      width: 100%;
+    }
+    .form-group.form-group-cus h2 {
+      width: 100%;
+      margin: 0px !important;
+    }
+    .form-group.form-group-cus {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .form-group.form-group-last-option {
+      width: 100% !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100px;
+    }
+    .feature-brands .cus--cus-first {
+      height: 30px;
+    }
+    .feature-brands .cus--cus-first img {
+      object-fit: contain;
+    }
+    .cus--cus-second img {
+      object-fit: contain;
+    }
+  }
+  @media only screen and (max-width: 350px) {
+    .cus-form-container .back-button,
+    .cus-form-container .next-button {
+      padding: 10px 30px;
+    }
+  }
+
+  .payment-modal {
+       display: none;
+    justify-content: center;
+    position: fixed;
+    z-index: 9;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .payment-modal .payment-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 420px;
+    width: 100%;
+    border: 1px solid #2020201a;
+    padding: 30px 20px;
+    background: white;
+  }
+  .payment-modal-content .modal-header {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .payment-modal-content .modal-header img {
+    max-width: 32px;
+    max-height: 32px;
+    object-fit: contain;
+    cursor: pointer;
+  }
+  .payment-modal-content .modal-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top:20px;
+  }
+  .payment-modal-content .modal-footer {
+    max-width: 340px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .modal-body h2 {
+    text-align: center;
+    font-family: "Didot";
+    font-weight: 400;
+    line-height: 26.4px;
+    font-size: 24px;
+  }
+  
+  .modal-body .payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 340px;
+    width: 100%;
+  }
+  
+  .modal-body .payment-options-monthly {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 340px;
+    width: 100%;
+  }
+  .modal-body .payment-options-yearly {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 340px;
+    width: 100%;
+  }
+  .payment-modal-content .payment-option {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #202020;
+    cursor: pointer;
+  }
+  .payment-modal-content .payment-option.active {
+    background: #96e6de;
+  }
+  .payment-option label {
+    font-size: 12px;
+    font-family: "POPPINS";
+    line-height: 20px;
+    font-weight: 400;
+    color: ##202020;
+    cursor: pointer;
+  }
+  .payment-option .payment-option-price {
+    font-size: 20px;
+    line-height: 24px;
+    font-family: "Poppins";
+    font-weight: 400;
+    color: ##202020;
+  }
+  .payment-modal-content .option-selection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+  }
+  .option-selection input[type="radio"] {
+    accent-color: black;
+    cursor: pointer;
+  }
+  @media (max-width: 430px) {
+    .modal-body h2 {
+      max-width: 255px;
+    }
+    .payment-modal .payment-modal-content {
+      width: 335px;
+    }
+    .modal-body .payment-options {
+      max-width: 255px;
+    }
+    .payment-modal-content .modal-footer {
+      max-width: 255px;
+    }
+    .submit-payment {
+      text-align: center;
+      width: 100%;
+    }
+  }
+</style>
+
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle Functionality Start
+        // Select all the checkbox inputs with class containing "-checkbox"
+        const checkboxes = document.querySelectorAll('.service-checkbox');
+
+        // // Add event listeners to each checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+
+                // Get all selected checkboxes
+                const selectedCheckboxes = Array.from(checkboxes).filter(cb => cb.checked);
+                //toggle button
+                document.getElementById('submit-payment').disabled = selectedCheckboxes.length === 0;
+                // Check for the single checkbox selection and whether it is not "Tan"
+                if (selectedCheckboxes.length === 1 && !selectedCheckboxes.some(cb => {
+                        const label = document.querySelector(`label[for="${cb.id}"]`);
+                        return label && label.textContent.trim() === "Tan";
+                    })) {
+
+                    // Disable all checkboxes with the label "Tan"
+                    checkboxes.forEach(box => {
+                        const tanLabel = document.querySelector(`label[for="${box.id}"]`);
+                        if (tanLabel && tanLabel.textContent.trim() === "Tan") {
+                            box.disabled = true;
+                        }
+                    });
+                } else if (selectedCheckboxes.length > 1 && selectedCheckboxes.length < 3 && selectedCheckboxes.some(cb => {
+                        const label = document.querySelector(`label[for="${cb.id}"]`);
+                        return label && label.textContent.trim() === "Tan";
+                    })) {
+
+                    // Uncheck and disable the checkbox with label "Tan"
+                    checkboxes.forEach(box => {
+                        const tanLabel = document.querySelector(`label[for="${box.id}"]`);
+                        if (tanLabel && tanLabel.textContent.trim() === "Tan") {
+                            box.checked = false;
+                            box.disabled = true;
+                        }
+                    });
+                } else {
+                    // Enable all checkboxes
+                    checkboxes.forEach(box => {
+                        const tanLabel = document.querySelector(`label[for="${box.id}"]`);
+                        if (tanLabel && tanLabel.textContent.trim() === "Tan") {
+                            box.disabled = false;
+                        }
+                    });
+                }
+            });
+        });
+        // Toggle Functionlity End 
+
+
+        // Starts Dynamic Toggle
+        const planButtons = document.querySelectorAll('.plan-toggle');
+        let currentPlan = 'quarterly'; // Default plan is quarterly
+
+        // Function to update the amount based on selected checkboxes
+        //   function calculateAmount() {
+        //   // Get selected checkboxes and their values based on the current plan
+        //   const selectedCheckboxes = Array.from(checkboxes)
+        //     .filter(checkbox => checkbox.checked)
+        //     .map(checkbox => parseInt(checkbox.dataset[currentPlan], 10)); // Get value based on current plan
+        //   // Sum the selected checkbox values
+        //   let totalAmount = selectedCheckboxes.reduce((sum, value) => sum + value, 0);
+
+        //   // Multiply the total based on the plan (quarterly or yearly)
+        //   if (currentPlan === 'quarterly') {
+        //     totalAmount *= 3; // Quarterly: multiply by 3
+        //   }
+
+        //   // Update the displayed total amount
+        //   document.getElementById('amount').textContent = totalAmount;
+        // }
+
+        function calculateAmount() {
+            // Get selected checkboxes
+            const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+
+            let totalAmount = 0;
+            // Apply pricing based on selected options
+            if (selectedCheckboxes.length === 1) {
+                totalAmount = 39; // Single option selected
+            } else if (selectedCheckboxes.length === 2) {
+                const selectedOptions = selectedCheckboxes.map(checkbox => checkbox.value); // Assuming value contains option names
+                // if (selectedOptions.includes('hair') && selectedOptions.includes('makeup')) {
+                totalAmount = 79; // Hair and Makeup selected
+                // } else {
+                // totalAmount = 39 * selectedCheckboxes.length; // Charge 39 per option if other combinations
+                // }
+            } else if (selectedCheckboxes.length === 3) {
+                totalAmount = 99; // All three options selected
+            }
+
+            // Multiply by 3 if the current plan is quarterly
+            if (currentPlan === 'quarterly') {
+                totalAmount *= 3;
+            } else if (currentPlan === 'yearly') {
+                totalAmount *= 12;
+            }
+
+            // Update the displayed total amount
+            document.getElementById('amount').textContent = totalAmount;
+        }
+
+
+        // Function to handle plan toggle
+        function handlePlanToggle(event) {
+            const selectedPlan = event.target.dataset.plan;
+            currentPlan = selectedPlan;
+            // Remove the 'active' class from all plan toggle buttons
+            const planButtons = document.querySelectorAll('.plan-toggle');
+            planButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add the 'active' class to the clicked button
+            event.target.classList.add('active');
+
+            // Update the values of checkboxes to reflect the new plan
+            checkboxes.forEach(checkbox => {
+                const newValue = checkbox.dataset[selectedPlan]; // Get the value based on the selected plan
+                checkbox.value = newValue; // Dynamically change the value
+            });
+
+            // Recalculate the total amount after toggling the plan
+            calculateAmount();
+        }
+
+
+        // Attach event listeners to the plan toggle buttons
+        planButtons.forEach(button => {
+            button.addEventListener('click', handlePlanToggle);
+        });
+
+        // Attach event listeners to the checkboxes to calculate total on change
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', calculateAmount);
+        });
+
+        // Ends Dynamic Toggle
+
+        const steps = document.querySelectorAll(".form-step");
+        const nextButtons = document.querySelectorAll(".next-button");
+        const backButtons = document.querySelectorAll(".back-button");
+        const progressBar = document.getElementById("progress-bar");
+        const progressButtons = document.querySelectorAll(".progress-button");
+        let currentStep = 0;
+        const totalSteps = 4; // Number of steps
+
+        nextButtons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                steps[currentStep].classList.remove("active");
+                currentStep++;
+                steps[currentStep].classList.add("active");
+                updateButtons();
+                updateProgressBar();
+                updateProgressButtons();
+            });
+        });
+
+        backButtons.forEach((button, index) => {
+
+            button.addEventListener("click", () => {
+                steps[currentStep].classList.remove("active");
+                currentStep--;
+                steps[currentStep].classList.add("active");
+                updateButtons();
+                updateProgressBar();
+                updateProgressButtons();
+            });
+
+        });
+
+        function updateButtons() {
+            if (currentStep === 0) {
+                backButtons[currentStep].disabled = true;
+            } else {
+                backButtons[currentStep].disabled = false;
+            }
+
+            if (currentStep === totalSteps - 1) {
+                // nextButtons[currentStep].textContent = "Submit";
+            } else {
+                nextButtons[currentStep].textContent = "Next";
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentStep + 1) / totalSteps) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function updateProgressButtons() {
+            progressButtons.forEach((button, index) => {
+                if (index <= currentStep) {
+                    button.classList.add("active");
+                } else {
+                    button.classList.remove("active");
+                }
+            });
+        }
+
+        // Open modal function
+        function openModal() {
+            const modal = document.getElementById('payment-modal');
+            modal.style.display = 'flex';
+        }
+
+        // Close modal function
+        function closeModal() {
+            const modal = document.getElementById('payment-modal');
+            modal.style.display = 'none';
+        }
+        // Close modal if clicking outside of the modal content
+        window.addEventListener('click', function (event) {
+            const modal = document.getElementById('payment-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        document.querySelector("#close-payment-modal").addEventListener("click", () => {
+            closeModal();
+        })
+        document.querySelector(".submit-button").addEventListener("click", () => {
+            openModal();
+            const form = document.getElementById('ContactForm');
+            // Collect form data using FormData
+            const formData = new FormData(form);
+
+            // Convert FormData to an object
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Log the data to the console (or send it to a server)
+            console.log('Form Data:', data);
+            // Call the function to send the data
+            sendFormDataToAirtable(data);
+        })
+
+        // AWS S3 configuration
+        // Load configuration from .env file
+        const S3_BUCKET = process.env.S3_BUCKET;
+        const REGION = process.env.S3_REGION;
+        const ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+        const SECRET_KEY = process.env.AWS_SECRET_KEY;
+
+        // Airtable configuration
+        const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+        const BASE_ID = process.env.AIRTABLE_BASE_ID;
+        const TABLE_NAME = process.env.AIRTABLE_TABLE_NAME;
+
+        const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+
+        // Initialize AWS S3
+        AWS.config.update({
+            accessKeyId: ACCESS_KEY,
+            secretAccessKey: SECRET_KEY,
+            region: REGION
+        });
+
+        const s3 = new AWS.S3();
+
+        // Function to upload file to S3
+        function uploadFileToS3(file, callback) {
+            const currentDateTime = new Date().toISOString().replace(/:/g, '-');
+            const params = {
+                Bucket: S3_BUCKET,
+                Key: currentDateTime,
+                Body: file,
+                ContentType: file.type
+                // Remove the ACL parameter
+            };
+
+            s3.upload(params, function (err, data) {
+                if (err) {
+                    console.error('Error uploading file to S3:', err);
+                    return;
+                }
+                console.log('File uploaded successfully:', data.Location);
+                callback(data.Location); // Return the uploaded file URL
+            });
+        }
+
+        // Function to send data to Airtable
+        function sendToAirtable(fileUrl, formData) {
+            const fields = {
+                "email": formData["contact[email]"],
+                "Do you offer mobile services?": formData["contact[Do you offer mobile services?]"],
+                "Info": formData["contact[Info]"],
+                "Hours": formData["contact[Hours]"],
+                "payment": formData["contact[payment]"],
+                "services": formData["contact[services]"],
+                "Beauty Tip": formData["contact[Beauty Tip]"],
+                "Products": formData["contact[Products]"],
+                "Beauty SuperPower": formData["contact[Beauty SuperPower]"],
+                "social media": formData["contact[social media]"]
+            };
+
+            // If file URL is available, add it to the img field
+            if (fileUrl) {
+                fields["img"] = [{ "url": fileUrl }];
+            }
+
+            const data = {
+                fields: fields
+            };
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", AIRTABLE_URL, true);
+            xhr.setRequestHeader("Authorization", `Bearer ${AIRTABLE_API_KEY}`);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Data successfully sent to Airtable:', xhr.responseText);
+                } else if (xhr.readyState === 4) {
+                    console.error('Error sending data to Airtable:', xhr.responseText);
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
+
+        // Function to handle form submission
+        function sendFormDataToAirtable(formData) {
+            const fileInput = document.getElementById('img').files[0]; // Assuming file input field in formData
+            console.log('fileInput',fileInput);
+            if (fileInput instanceof File) {
+                uploadFileToS3(fileInput, function (fileUrl) {
+                    sendToAirtable(fileUrl, formData); // Send form data with uploaded S3 URL to Airtable
+                });
+            } else {
+                sendToAirtable(null,formData); // Send without image
+            }
+        }
+
+        // Function to handle payment option click
+        function handlePaymentOptionClick(event) {
+            // Check if the click event happened on a payment option element
+            const paymentOption = event.currentTarget;
+
+            // Find the radio button inside the clicked payment option
+            const radioButton = paymentOption.querySelector('input[type="radio"]');
+
+            // If radio button is found
+            if (radioButton) {
+                // Check the radio button
+                radioButton.checked = true;
+
+                // Update the 'active' class on payment-option elements
+                updateActiveClass();
+            }
+        }
+
+
+        // Function to update the 'active' class based on selected radio button
+        function updateActiveClass() {
+            // Remove the 'active' class from all payment-option elements
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            paymentOptions.forEach(option => {
+                option.classList.remove('active');
+            });
+
+            // Add the 'active' class to the parent of the selected radio button
+            const selectedRadio = document.querySelector('input[name="payment-option"]:checked');
+            console.log(selectedRadio);
+            if (selectedRadio) {
+                const parentOption = selectedRadio.closest('.payment-option');
+                console.log(parentOption);
+                if (parentOption) {
+                    parentOption.classList.add('active');
+                }
+            }
+        }
+
+        // Attach click event listeners to all payment-option elements
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', handlePaymentOptionClick);
+        });
+
+        // Initialize the state based on the default checked radio button
+        updateActiveClass();
+
+        document.querySelector('.submit-payment').addEventListener("click", () => {
+            const paymentLinkArr = {
+              117: "https://buy.stripe.com/test_aEU7sxbAY2BAcUM5kk",
+              468: "https://buy.stripe.com/test_fZe5kp6gE1xwdYQ145",
+              237: "https://buy.stripe.com/test_fZe149awU7VUbQIcMO",
+              948: "https://buy.stripe.com/test_eVafZ36gEgsq2g8147",
+              297: "https://buy.stripe.com/test_cN25kp5cA8ZYbQI148",
+              1188: "https://buy.stripe.com/test_00g5kpdJ65NM8Ew3ch",
+          }
+
+            let amount = document.getElementById('amount');
+            amount = amount.textContent;
+            if(amount && paymentLinkArr[amount]){
+                const paymentLink = paymentLinkArr[amount];
+                window.location.href = paymentLink;
+                console.log("modal submit", paymentLink);
+            }else{
+                console.log('not associated with payment link');
+            }
+        });
+         // New validation logic starts here
+    function validateCurrentStep() {
+        if (currentStep === 0) {
+            return true; // Skip validation for step 0
+        }
+
+        const currentStepElement = steps[currentStep];
+        const inputs = currentStepElement.querySelectorAll("input, select, textarea");
+        let isValid = true;
+
+        console.log('Validating current step:', currentStep);
+
+        inputs.forEach(input => {
+            if (input.type === 'checkbox') {
+                // If it's a checkbox, check if at least one checkbox in the group is checked
+                const checkboxesInGroup = currentStepElement.querySelectorAll(`input[name="${input.name}"]`);
+                const isAnyChecked = Array.from(checkboxesInGroup).some(checkbox => checkbox.checked);
+                if (!isAnyChecked) {
+                    isValid = false;
+                }
+            } 
+            else if (input.type !== 'file' && input.value.trim() === '') {
+                // For other input types (except file), ensure they are not empty
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+    function updateNextOrSubmitButton() {
+        console.log('Updating button for step', currentStep);
+        if (currentStep === totalSteps - 1) {
+            // For the last step, update the submit button
+            const submitButton = document.querySelector(".submit-button");
+            if (validateCurrentStep()) {
+                submitButton.removeAttribute("disabled");
+            } else {
+                submitButton.setAttribute("disabled", true);
+            }
+        } else {
+            // For intermediate steps, update the next button
+            if (validateCurrentStep()) {
+                nextButtons[currentStep].removeAttribute("disabled");
+            } else {
+                nextButtons[currentStep].setAttribute("disabled", true);
+            }
+        }
+    }
+
+    // Attach input validation on input and change events for each step
+    steps.forEach((step, index) => {
+        const inputs = step.querySelectorAll("input, select, textarea");
+
+        inputs.forEach(input => {
+            input.addEventListener("input", updateNextOrSubmitButton);
+            input.addEventListener("change", updateNextOrSubmitButton);
+        });
+    });
+
+    // Validate when navigating between steps
+    nextButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            if (validateCurrentStep()) {
+                steps[currentStep].classList.remove("active");
+                currentStep++;
+                steps[currentStep].classList.add("active");
+                updateButtons();
+                updateProgressBar();
+                updateProgressButtons();
+                updateNextOrSubmitButton(); // Revalidate the new step
+            }
+        });
+    });
+
+    backButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            steps[currentStep].classList.remove("active");
+            currentStep--;
+            steps[currentStep].classList.add("active");
+            updateButtons();
+            updateProgressBar();
+            updateProgressButtons();
+            updateNextOrSubmitButton(); // Revalidate the new step
+        });
+    });
+
+    // Initialize the validation for the first step
+    updateNextOrSubmitButton();
+
+    // Utility functions to update the UI elements (progress bar, buttons)
+    function updateButtons() {
+        if (currentStep === 0) {
+            backButtons[currentStep].disabled = true;
+        } else {
+            backButtons[currentStep].disabled = false;
+        }
+
+        if (currentStep === totalSteps - 1) {
+            if(nextButtons[currentStep])
+            nextButtons[currentStep].textContent = "Submit";
+        } else {
+            nextButtons[currentStep].textContent = "Next";
+        }
+    }
+
+    function updateProgressBar() {
+        const progress = ((currentStep + 1) / totalSteps) * 100;
+        const progressBar = document.getElementById("progress-bar");
+        if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+        }
+    }
+
+    function updateProgressButtons() {
+        const progressButtons = document.querySelectorAll(".progress-button");
+        progressButtons.forEach((button, index) => {
+            if (index <= currentStep) {
+                button.classList.add("active");
+            } else {
+                button.classList.remove("active");
+            }
+        });
+    }
+    }); 
+</script>
+{% schema %}
+{
+  "name": "Multi-Step Form",
+  "settings": [],
+"presets": [
+  {
+    "name": "Multi-Step Form"
+  }
+]
+}
+{% endschema %}
